@@ -1,0 +1,36 @@
+bool IsHaveInVec(std::vector<std::string>vec, std::string s)//用来判断在容器中是否已存在s，存在返回true，不存在返回false;
+{
+	for (int i = 0; i < vec.size();i++)
+	if (vec[i] == s) return true;
+	return false;
+}
+    vector<string> generateParenthesis(int n) {//思想，以（）为单位进行插入的思想；从0开始逐渐插入。
+        std::vector<std::string>result;
+	std::vector<std::string>tempvec;
+	for (int i = 0; i < n; i++)
+	{
+		if (result.empty())
+		{
+			result.push_back("()");//首先插入();
+		}
+		else
+		{
+			for (int i = 0; i < result.size(); i++)//然后对result中的每个string的前一半位置插入()，若tempvec中有，则不插入，无则插入。
+			{
+				std::string tempstr = result[i];
+				for (int j = 0; j <= tempstr.size() / 2; j++)
+				{
+					std::string tempstrinsert = tempstr;
+					tempstrinsert.insert(j, "()");
+					if (IsHaveInVec(tempvec, tempstrinsert) == false)
+						tempvec.push_back(tempstrinsert);
+				}
+			}
+			result.clear();//新一轮插入完成后，把结果赋值给result；并把tempvec清空
+			result = tempvec;
+			tempvec.clear();
+		}
+	}
+	return result;
+        
+    }
